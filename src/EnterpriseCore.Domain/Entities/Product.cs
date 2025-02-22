@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EnterpriseCore.Domain.Entities
 {
@@ -11,9 +8,12 @@ namespace EnterpriseCore.Domain.Entities
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
 
-        [Column(TypeName = "decimal(18, 2)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
-        public int UserId { get; set; } // Foreign Key
-        public User User { get; set; } // Navigation Property
+
+        public int UserId { get; set; }
+        public User User { get; set; }
+
+        public DateTime? DeletedAt { get; set; } // ✅ Soft Delete column
     }
 }

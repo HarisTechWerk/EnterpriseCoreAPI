@@ -1,7 +1,7 @@
-using EnterpriseCore.Domain.Entities; // ✅ Ensure correct import
+using EnterpriseCore.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace EnterpriseCore.Infrastructure.Persistence // ✅ Check this is correct
+namespace EnterpriseCore.Infrastructure.Persistence
 {
     public class ApplicationDbContext : DbContext
     {
@@ -12,8 +12,11 @@ namespace EnterpriseCore.Infrastructure.Persistence // ✅ Check this is correct
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Add entity configurations here if needed
             base.OnModelCreating(modelBuilder);
+
+            // ✅ Filter to exclude soft-deleted records by default
+            modelBuilder.Entity<User>().HasQueryFilter(u => u.DeletedAt == null);
+            modelBuilder.Entity<Product>().HasQueryFilter(p => p.DeletedAt == null);
         }
     }
 }

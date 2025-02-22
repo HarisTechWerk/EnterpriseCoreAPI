@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using EnterpriseCore.Infrastructure.Persistence; // Ensure this namespace is available
+using EnterpriseCore.Infrastructure.Persistence;
+using Microsoft.OpenApi.Models;
+using EnterpriseCore.Application.Interfaces;
+using EnterpriseCore.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,10 +10,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// ✅ Register Generic Repository
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>)); // ✅ Fix Here!
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer(); // Required for Swagger
-builder.Services.AddSwaggerGen(); // Adds Swagger support
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Enterprise Core API",
+        Version = "v1"
+    });
+});
+
 
 var app = builder.Build();
 
