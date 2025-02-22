@@ -1,0 +1,11 @@
+bin/
+obj/
+.vs/
+logs/
+appsettings.json
+appsettings.Development.json
+.DS_Store
+node_modules/
+bin/
+obj/
+.vs/
